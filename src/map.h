@@ -20,6 +20,8 @@ public:
             switch (type) {
                 case Type::Wall: return {'#', sf::Color::White, sf::Color::Black};
                 case Type::Floor: return {'.', sf::Color::White, sf::Color::Black};
+                default:
+                    return {'?', sf::Color::Black, sf::Color::Magenta};
             }
         }
         enum class Type {
@@ -30,9 +32,11 @@ public:
     Map(const size_t width, const size_t height) : width(width), height(height) {}
     void generate();
     void render_to(gfx::Console& console, uint32_t x, uint32_t y) noexcept;
+    sf::Vector2u get_size() const;
+    const Tile& get_tile(const size_t x, const size_t y) const;
 private:
-    const size_t width;
-    const size_t height;
+    const uint32_t width;
+    const uint32_t height;
     std::vector<Tile> tiles = {};
 };
 

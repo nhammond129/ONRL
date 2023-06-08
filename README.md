@@ -23,21 +23,32 @@ I spent some time fiddling around with padding to get the gutter between the gly
 ----
 ### June 8, 2023 @ 12:42AM
 
-i made a map class.
+i made a map class. (and a homemade pizza. it was great.)
 no actual map generation yet, just a random 2d array of tiles.
-Spent a while reading about map gen types. I'll probably just do some bsp + some CA style annealing to "smoof" it out.
+Spent a while reading about map gen stuff. I'll probably just do some bsp + some CA style annealing to "smoof" it out.
 
 ![Map](./pics/map_initial.png)
 
+----
+### June 8, 2023 @ 4:35PM
 
+👀 Sorry I haven't pushed this up to github yet lol.
 
+I actually won't be around this weekend, since on Friday I'm going up north to visit my mother, and I won't be back until Sunday night or mid-Monday. I know time is pressing, but it'll certainly be something "playable" before I go.
+
+I slapped down some crusty code to get a player on the screen, so here's that.
+
+![Player](./pics/player.png)
+
+Just arbitrarily dropping him at `5, 5` for now, and there's some basic collision checks.
 
 ## TODO
 
     - [x] Make a window.
-    - [ ] Make a player, let it walk around.
+    - [x] Make a player, let it walk around.
     - [x] Make a map
-    - [ ] let the player walk around in the map.
+    - [x] let the player walk around in the map.
+    - [ ] Proper Map Generation
     - [ ] Make a monster, let it walk around (brownian?)
     - [ ] Time Systems
         - [ ] Make a turn clock
@@ -53,8 +64,3 @@ Spent a while reading about map gen types. I'll probably just do some bsp + some
         - [ ] Player can use items
         - [ ] Items can be weapons
         - [ ] Items can be armor
-        - [ ] Items can be consumables
-    - [ ] Experience & levels?
-        - [ ] Player can gain experience
-        - [ ] Player can level up
-        - [ ] Player can gain stats

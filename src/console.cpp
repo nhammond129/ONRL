@@ -24,7 +24,7 @@ Console::Console(uint32_t width, uint32_t height, std::string font_path, uint32_
     glyph_px_width  = text_rect.width  + padding*2;
     glyph_px_height = text_rect.height + padding*2;
 
-    // hard to read but a quick n dirty way to match edge padding
+    // hard to read but a quick n dirty way to match edge padding i guess
     glyph_v_edge_pad = (text_rect.left - text_rect.top ) > 0 ? (text_rect.left - text_rect.top ) : 0;
     glyph_h_edge_pad = (text_rect.top  - text_rect.left) > 0 ? (text_rect.top  - text_rect.left) : 0;
 
