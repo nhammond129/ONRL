@@ -55,9 +55,10 @@ Console::Console(uint32_t width, uint32_t height, std::string font_path, uint32_
     // initialize all glyphs to be some default
     for (uint32_t i = 0; i < width * height; i++) {
         sf::Color fg = sf::Color{211, 211, 211};
+        sf::Color bg = sf::Color{ 34,  34,  34};
         const char c = '.';
         glyphs.push_back(
-            {fg, sf::Color{ 34,  34,  34}, c}
+            {c, fg, bg}
         );
     }
 }
@@ -100,6 +101,16 @@ void Console::set_glyph(uint32_t x, uint32_t y, Console::glyph_t glyph) {
     glyphs[y*width + x] = glyph;
 }
 
+/**
+ * @brief Set a region of the console to a set of glyphs.
+ * @tparam N The number of glyphs in the array.
+ * @param x The x coordinate of the top left corner of the region.
+ * @param y The y coordinate of the top left corner of the region.
+ * @param w The width of the region.
+ * @param h The height of the region.
+ * @param glyphs The std::vector of glyphs to set the region to.
+ * @return void
+ **/
 void Console::set_region(uint32_t x, uint32_t y, uint32_t w, uint32_t h, std::vector<Console::glyph_t> glyphs) {
     if (x >= width || y >= height) {
         util::halt_catch_fire("Attempted to set region at " + std::to_string(x) + "," + std::to_string(y)
@@ -122,11 +133,13 @@ void Console::set_region(uint32_t x, uint32_t y, uint32_t w, uint32_t h, std::ve
 
 sf::Vector2u Console::get_mouse_tile_xy() const {
     sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-    uint32_t mouse_x = mouse_pos.x - glyph_h_edge_pad;
-    uint32_t mouse_y = mouse_pos.y - glyph_v_edge_pad;
-    uint32_t tile_x = mouse_x / glyph_px_width;
-    uint32_t tile_y = mouse_y / glyph_px_height;
+    const uint32_t mouse_x = mouse_pos.x - glyph_h_edge_pad;
+    const uint32_t mouse_y = mouse_pos.y - glyph_v_edge_pad;
+    const uint32_t tile_x = mouse_x / glyph_px_width;
+    const uint32_t tile_y = mouse_y / glyph_px_height;
     return sf::Vector2u(tile_x, tile_y);
 }
+
+bool Console::poll_event(sf::Event& event) noexcept { return window.pollEvent(event); }
 
 }  // namespace gfx

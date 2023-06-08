@@ -19,16 +19,19 @@ namespace gfx {
 class Console {
 public:
     struct glyph_t {
+        char c;
         sf::Color fg;
         sf::Color bg;
-        char c;
     };
     Console(uint32_t width, uint32_t height, std::string font_path, uint32_t font_size = 12);
 
     void render() noexcept;
     void set_glyph(uint32_t x, uint32_t y, glyph_t g);
-    void set_region(uint32_t x, uint32_t y, uint32_t width, uint32_t height, std::vector<glyph_t> glyphs);
+    void set_region(uint32_t x, uint32_t y, uint32_t w, uint32_t h, std::vector<glyph_t> glyphs);
+    template <size_t N>
+    void set_region(uint32_t x, uint32_t y, uint32_t w, uint32_t h, std::array<glyph_t, N> glyphs);
     sf::Vector2u get_mouse_tile_xy() const;
+    bool poll_event(sf::Event& event) noexcept;
 private:
     uint32_t width;
     uint32_t height;

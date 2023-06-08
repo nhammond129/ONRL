@@ -18,6 +18,8 @@ include_directories(ONRL
 add_executable(ONRL
     src/main.cpp
     src/console.cpp
+    src/map.cpp
+    src/util.cpp
 )
 
 target_link_libraries(ONRL PRIVATE sfml-graphics sfml-window sfml-system sfml-audio)

@@ -20,13 +20,24 @@ I've got a window up and running.
 I spent some time fiddling around with padding to get the gutter between the glyph grid uniform on all sides. Wasn't necessary, but it was annoying me >_>;
 ![Window](./pics/make_a_window.png)
 
+----
+### June 8, 2023 @ 12:42AM
+
+i made a map class.
+no actual map generation yet, just a random 2d array of tiles.
+Spent a while reading about map gen types. I'll probably just do some bsp + some CA style annealing to "smoof" it out.
+
+![Map](./pics/map_initial.png)
+
+
 
 
 ## TODO
 
     - [x] Make a window.
     - [ ] Make a player, let it walk around.
-    - [ ] Make a map, let the player walk around in it.
+    - [x] Make a map
+    - [ ] let the player walk around in the map.
     - [ ] Make a monster, let it walk around (brownian?)
     - [ ] Time Systems
         - [ ] Make a turn clock
