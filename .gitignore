@@ -1,1 +1,8 @@
+# I usually do a semi-out-of-source build (cmake -B build -S .)
 build/**
+
+# vscode
+.vscode/**
+
+# vim temp file(s)
+*.swp

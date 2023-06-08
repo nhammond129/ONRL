@@ -2,13 +2,28 @@
 
 In the interest of providing Sunday an example of my gamedev work, I'm going to vomit up a quick and dirty roguelike. I'm going to use C++ and SFML, because I'm familiar with them.
 
-SFML mostly because it'll be easy to make some guarantees w.r.t. color and sizes.
+Devlog will be fairly informal.
+Will try to correlate an entry with each commit on this.
 
 ----
 
-TODO:
+## Notes
+- Requires C++20 for [<source_location>](https://en.cppreference.com/w/cpp/utility/source_location)
 
-    - [ ] Make a window.
+## Devlog
+
+----
+### June 7, 2023 @ 10:37PM
+
+I've got a window up and running.
+I spent some time fiddling around with padding to get the gutter between the glyph grid uniform on all sides. Wasn't necessary, but it was annoying me >_>;
+![Window](./pics/make_a_window.png)
+
+
+
+## TODO
+
+    - [x] Make a window.
     - [ ] Make a player, let it walk around.
     - [ ] Make a map, let the player walk around in it.
     - [ ] Make a monster, let it walk around (brownian?)

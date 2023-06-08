@@ -17,10 +17,11 @@ include_directories(ONRL
 )
 add_executable(ONRL
     src/main.cpp
+    src/console.cpp
 )
 
 target_link_libraries(ONRL PRIVATE sfml-graphics sfml-window sfml-system sfml-audio)
-target_compile_features(ONRL PRIVATE cxx_std_17)
+target_compile_features(ONRL PRIVATE cxx_std_20)
 if (WIN32 AND BUILD_SHARED_LIBS)
     add_custom_command(TARGET ONRL POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:ONRL> $<TARGET_FILE_DIR:ONRL> COMMAND_EXPAND_LISTS)
