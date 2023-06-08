@@ -101,6 +101,14 @@ void Console::set_glyph(uint32_t x, uint32_t y, Console::glyph_t glyph) {
     glyphs[y*width + x] = glyph;
 }
 
+const Console::glyph_t Console::get_glyph(uint32_t x, uint32_t y) const {
+    if (x >= width || y >= height) {
+        util::halt_catch_fire("Attempted to get glyph at " + std::to_string(x) + "," + std::to_string(y)
+                + " but console size is " + std::to_string(width) + "x" + std::to_string(height));
+    }
+    return glyphs[y*width + x];
+}
+
 /**
  * @brief Set a region of the console to a set of glyphs.
  * @tparam N The number of glyphs in the array.

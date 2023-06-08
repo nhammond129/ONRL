@@ -1,35 +1,46 @@
 #include "console.h"
 #include "map.h"
 #include "util.h"
+#include "colors.h"
+#include "player.h"
 #include <iostream>
-#include <optional> 
+#include <optional>
+
+
+#define GW_OFF_X 32
+#define GW_OFF_Y 0
+
+void render_player(gfx::Console& console, const game::Player& player) noexcept {
+    console.set_glyph(player.x + GW_OFF_X, player.y + GW_OFF_Y, {player.c, player.fg, console.get_glyph(player.x + GW_OFF_X, player.y + GW_OFF_Y).bg});
+}
 
 int main(char** argv, int argc) {
+    // seed random
+    srand(time(NULL));
     gfx::Console console(120, 60, "data/font/kongtext.ttf");
 
-    game::Map map(80, 50);
+    game::Map map(88, 50);
+    game::Player player;
     map.generate();
 
-    // quick & dirty player
-    struct Player {
-        uint32_t x = 5;
-        uint32_t y = 5;
-        gfx::Console::glyph_t glyph = {'@', sf::Color::Yellow, sf::Color::Black};
-
-        bool can_move_to(const game::Map& map, const int32_t x, const int32_t y) const noexcept {
-            sf::Vector2u size = map.get_size();
-            if (x < 0 || y < 0 || x >= size.x || y >= size.y) {
-                return false;
-            }
-            const auto& tile = map.get_tile(x, y);
-            return (tile.type == game::Map::Tile::Type::Floor);
+    // find a random passable tile
+    std::optional<sf::Vector2u> player_pos;
+    while (!player_pos.has_value()) {
+        const auto x = rand() % map.get_size().x;
+        const auto y = rand() % map.get_size().y;
+        if (map.get_tile(x, y).passable) {
+            player_pos = sf::Vector2u{x, y};
         }
-    } player;
+    }
+    player.x = player_pos.value().x;
+    player.y = player_pos.value().y;
 
+    // game loop
     while (true) {
-        map.render_to(console, 8, 8);
-        console.set_glyph(player.x + 8, player.y + 8, player.glyph);
+        map.render_to(console, GW_OFF_X, GW_OFF_Y);
+        render_player(console, player);
         console.render();
+
         sf::Event event;
         while (console.poll_event(event)) {
             switch (event.type) {
@@ -43,34 +54,14 @@ int main(char** argv, int argc) {
 
                     switch (event.key.code) {
                         // HJKL vi-movement
-                        case sf::Keyboard::H: {
-                            if (player.can_move_to(map, player.x - 1, player.y)) {
-                                player.x -= 1;
-                            }
-                        } break;
-                        case sf::Keyboard::J: {
-                            if (player.can_move_to(map, player.x, player.y + 1)) {
-                                player.y += 1;
-                            }
-                        } break;
-                        case sf::Keyboard::K: {
-                            if (player.can_move_to(map, player.x, player.y - 1)) {
-                                player.y -= 1;
-                            }
-                        } break;
-                        case sf::Keyboard::L: {
-                            if (player.can_move_to(map, player.x + 1, player.y)) {
-                                player.x += 1;
-                            }
-                        } break;
+                        case sf::Keyboard::H: player.try_move_to(map, player.x - 1, player.y); break;
+                        case sf::Keyboard::J: player.try_move_to(map, player.x, player.y + 1); break;
+                        case sf::Keyboard::K: player.try_move_to(map, player.x, player.y - 1); break;
+                        case sf::Keyboard::L: player.try_move_to(map, player.x + 1, player.y); break;
                     }
                 } break;
-                case sf::Event::MouseEntered:   break;
-                case sf::Event::MouseMoved:     break;
-                case sf::Event::MouseLeft:      break;
-                case sf::Event::LostFocus:      break;
                 default:
-                    std::cout << "Unhandled event: " << util::sf::to_string(event.type) << std::endl;
+                    // std::cout << "Unhandled event: " << util::sf::to_string(event.type) << std::endl;
                     break;
             }
         }

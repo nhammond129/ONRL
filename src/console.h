@@ -27,6 +27,7 @@ public:
 
     void render() noexcept;
     void set_glyph(uint32_t x, uint32_t y, glyph_t g);
+    const glyph_t get_glyph(uint32_t x, uint32_t y) const;
     void set_region(uint32_t x, uint32_t y, uint32_t w, uint32_t h, std::vector<glyph_t> glyphs);
     template <size_t N>
     void set_region(uint32_t x, uint32_t y, uint32_t w, uint32_t h, std::array<glyph_t, N> glyphs);

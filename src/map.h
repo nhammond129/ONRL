@@ -2,6 +2,7 @@
 
 #include <array>
 #include "console.h"  // for Console::glyph_t
+#include "colors.h"
 
 namespace game {
 
@@ -9,25 +10,14 @@ class Map {
     using glyph_t = gfx::Console::glyph_t;
 public:
     struct Tile {
-        Tile() {
-            type = Type::Floor;
+        glyph_t get_glyph() noexcept {
+            if (!passable) bg = fg;
+            return glyph_t{c, fg, bg};
         }
-        union {
-            struct Wall { } wall;
-            struct Floor { } floor;
-        };
-        glyph_t get_glyph() const noexcept {
-            switch (type) {
-                case Type::Wall: return {'#', sf::Color::White, sf::Color::Black};
-                case Type::Floor: return {'.', sf::Color::White, sf::Color::Black};
-                default:
-                    return {'?', sf::Color::Black, sf::Color::Magenta};
-            }
-        }
-        enum class Type {
-            Wall,
-            Floor,
-        } type;
+        char c = '.';
+        sf::Color fg = Color::LGRAY;
+        sf::Color bg = Color::DGRAY;
+        bool passable = false;
     };
     Map(const size_t width, const size_t height) : width(width), height(height) {}
     void generate();

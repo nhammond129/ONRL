@@ -42,13 +42,21 @@ I slapped down some crusty code to get a player on the screen, so here's that.
 
 Just arbitrarily dropping him at `5, 5` for now, and there's some basic collision checks.
 
+----
+### June 8, 2023 @ 6:35PM
+
+I've got a basic map generator working. It's a simple BSP, with some cellular automata to smooth it out into something more cave-y. Refactored map tiles.
+
+![Map](./pics/map_gen.png)
+
+
 ## TODO
 
     - [x] Make a window.
     - [x] Make a player, let it walk around.
     - [x] Make a map
     - [x] let the player walk around in the map.
-    - [ ] Proper Map Generation
+    - [x] Proper Map Generation
     - [ ] Make a monster, let it walk around (brownian?)
     - [ ] Time Systems
         - [ ] Make a turn clock
