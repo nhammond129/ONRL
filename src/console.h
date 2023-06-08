@@ -18,7 +18,7 @@ namespace gfx {
  */
 class Console {
 public:
-    struct glyph {
+    struct glyph_t {
         sf::Color fg;
         sf::Color bg;
         char c;
@@ -26,19 +26,22 @@ public:
     Console(uint32_t width, uint32_t height, std::string font_path, uint32_t font_size = 12);
 
     void render() noexcept;
+    void set_glyph(uint32_t x, uint32_t y, glyph_t g);
+    void set_region(uint32_t x, uint32_t y, uint32_t width, uint32_t height, std::vector<glyph_t> glyphs);
+    sf::Vector2u get_mouse_tile_xy() const;
 private:
     uint32_t width;
     uint32_t height;
     uint32_t glyph_px_width;
     uint32_t glyph_px_height;
-    uint32_t glyph_v_edge_pad;   // edge padding so that the glyphgrid has uniform spacing on each edge :)
+    uint32_t glyph_v_edge_pad;   // edge padding so that the glyph grid has uniform spacing on each edge :)
     uint32_t glyph_h_edge_pad;
 
     sf::RenderWindow window;
     sf::Font font;
     uint32_t font_size;
 
-    std::vector<glyph> glyphs;
+    std::vector<glyph_t> glyphs;
 };
 
 }  // namespace gfx

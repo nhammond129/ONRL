@@ -16,8 +16,8 @@ Console::Console(uint32_t width, uint32_t height, std::string font_path, uint32_
     sf::FloatRect text_rect = text.getLocalBounds();
 
     // log text_rect
-    util::log("Text rect is at " + std::to_string(text_rect.left) + "x" + std::to_string(text_rect.top)
-            + " with width " + std::to_string(text_rect.width) + " and height " + std::to_string(text_rect.height));
+    util::log("Text rect is at " + std::to_string(text_rect.left) + "," + std::to_string(text_rect.top)
+            + " with size " + std::to_string(text_rect.width) + "x" + std::to_string(text_rect.height));
 
     uint32_t padding = std::max(text_rect.left, text_rect.top);
 
@@ -32,9 +32,9 @@ Console::Console(uint32_t width, uint32_t height, std::string font_path, uint32_
     util::log("Console created with width " + std::to_string(width) + " and height " + std::to_string(height));
     util::log("Glyph size is " + std::to_string(glyph_px_width) + "x" + std::to_string(glyph_px_height)
             + " with font size " + std::to_string(font_size));
-    util::log("Window size is " + std::to_string(width * glyph_px_width) + "x" + std::to_string(height * glyph_px_height));
+    util::log("Window size will be " + std::to_string(width * glyph_px_width) + "x" + std::to_string(height * glyph_px_height));
 
-    // create window based on that glyph's size
+    // create window based on that glyph_t's size
     // WARN:
     //  This makes the assumption that the font has a fixed width and height for all characters.
     //  This is not true for all fonts, and might cause some issues if the font does not have a fixed width and height.
@@ -54,50 +54,79 @@ Console::Console(uint32_t width, uint32_t height, std::string font_path, uint32_
 
     // initialize all glyphs to be some default
     for (uint32_t i = 0; i < width * height; i++) {
-        sf::Color fg = sf::Color::White;
-        char c;
-        const uint8_t uwu = i%3;
-        switch (uwu) {
-            /* 'uwu' */
-            case 0:
-            case 2:  c = 'U'; break;
-            case 1:  c = 'w'; break;
-        }
-
-        const uint8_t colors = (i/3)%5;
-        switch (colors) {
-            /* UPWPU */
-            case 0:
-            case 4:         fg = sf::Color{ 91, 206, 250}; break;  // light blue
-            case 1:
-            case 3:         fg = sf::Color{245, 169, 184}; break;  // pink
-            case 2:         fg = sf::Color{255, 255, 255}; break;  // white
-        }
-        glyphs.push_back({fg, sf::Color::Black, c});
+        sf::Color fg = sf::Color{211, 211, 211};
+        const char c = '.';
+        glyphs.push_back(
+            {fg, sf::Color{ 34,  34,  34}, c}
+        );
     }
 }
 
 void Console::render() noexcept {
-    // clear window
     window.clear();
 
     // simple render of all glyphs
+    // NOTE: glyph_*_edge_pad gutters are always black
+    // FUTURE: This could be fixed by padding out the size of the edge glyphs to cover the 'gutter'.
+
     sf::Text text;
     text.setFont(font);
     text.setCharacterSize(font_size);
+
+    sf::RectangleShape bg_rect;
+    bg_rect.setSize(sf::Vector2f(glyph_px_width, glyph_px_height));
+
     for (uint32_t i = 0; i < width * height; i++) {
+        uint32_t glyph_x = glyph_h_edge_pad + (i%width) * glyph_px_width;
+        uint32_t glyph_y = glyph_v_edge_pad + (i/width) * glyph_px_height;
+        // draw background
+        bg_rect.setPosition(glyph_x, glyph_y);
+        bg_rect.setFillColor(glyphs[i].bg);
+        window.draw(bg_rect);
         text.setFillColor(glyphs[i].fg);
-        text.setOutlineColor(glyphs[i].bg);
         text.setString(glyphs[i].c);
-        text.setPosition(
-            glyph_h_edge_pad + (i%width) * glyph_px_width,
-            glyph_v_edge_pad + (i/width) * glyph_px_height
-        );
+        text.setPosition(glyph_x, glyph_y);
         window.draw(text);
     }
 
-    // display window
     window.display();
+}
+
+void Console::set_glyph(uint32_t x, uint32_t y, Console::glyph_t glyph) {
+    if (x >= width || y >= height) {
+        util::halt_catch_fire("Attempted to set glyph at " + std::to_string(x) + "," + std::to_string(y)
+                + " but console size is " + std::to_string(width) + "x" + std::to_string(height));
+    }
+    glyphs[y*width + x] = glyph;
+}
+
+void Console::set_region(uint32_t x, uint32_t y, uint32_t w, uint32_t h, std::vector<Console::glyph_t> glyphs) {
+    if (x >= width || y >= height) {
+        util::halt_catch_fire("Attempted to set region at " + std::to_string(x) + "," + std::to_string(y)
+                + " but console size is " + std::to_string(width) + "x" + std::to_string(height));
+    }
+    if (x + w >= width || y + h >= height) {
+        util::halt_catch_fire("Attempted to set region at " + std::to_string(x) + "," + std::to_string(y)
+                + " with size " + std::to_string(w) + "x" + std::to_string(h)
+                + " but console size is " + std::to_string(width) + "x" + std::to_string(height));
+    }
+    if (glyphs.size() != w * h) {
+        util::halt_catch_fire("Attempted to set region at " + std::to_string(x) + "," + std::to_string(y)
+                + " with size " + std::to_string(w) + "x" + std::to_string(h) + "=" + std::to_string(w*h) + " glyphs"
+                + " but glyphs vector size is " + std::to_string(glyphs.size()));
+    }
+    for (uint32_t i = 0; i < w*h; i++) {
+        this->glyphs[(y+i/w)*width + (x+i%w)] = glyphs[i];
+    }
+}
+
+sf::Vector2u Console::get_mouse_tile_xy() const {
+    sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
+    uint32_t mouse_x = mouse_pos.x - glyph_h_edge_pad;
+    uint32_t mouse_y = mouse_pos.y - glyph_v_edge_pad;
+    uint32_t tile_x = mouse_x / glyph_px_width;
+    uint32_t tile_y = mouse_y / glyph_px_height;
+    return sf::Vector2u(tile_x, tile_y);
 }
 
 }  // namespace gfx

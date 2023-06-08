@@ -1,9 +1,10 @@
 # ONRL - _One Night RogueLike_
 
+## Foreword
+
 In the interest of providing Sunday an example of my gamedev work, I'm going to vomit up a quick and dirty roguelike. I'm going to use C++ and SFML, because I'm familiar with them.
 
-Devlog will be fairly informal.
-Will try to correlate an entry with each commit on this.
+Devlog will be fairly informal. I'll try to keep it up to date as I go.
 
 ----
 
