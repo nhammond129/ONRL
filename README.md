@@ -27,7 +27,10 @@ vi-like movement: `hjkl` for left, down, up, right (respectively.)
 
 ----
 ## Notes
-- Requires C++20 for [<source_location>](https://en.cppreference.com/w/cpp/utility/source_location)
+- Requires C++20 for [<source_location>](https://en.cppreference.com/w/cpp/utility/source_location) \
+  But otherwise it's pretty standard.
+
+- The console rendering is terribly crude, but it should let me do some pretty cute things with how the world looks. I don't have anything fancy -yet- but some noise in the colors used for walls/floors/etc would be super easy.
 
 ----
 ## Devlog
