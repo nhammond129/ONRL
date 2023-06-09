@@ -90,6 +90,10 @@ I tinkered around with better ideas of things to do with the moss, but none of w
         - [x] Make a turn clock
         - [x] Entities act when $SPEED ticks have passed.
     - [x] Moss?
+    - [ ] UI
+        - [ ] Player status (left column) (just need to draw text there regularly)
+        - [ ] Message log (bottom region) (fixed-size queue)
+        - [ ] Dialog boxes (overlaid, centered)
     - [ ] Combat
         - [ ] Player can attack monster
         - [ ] Monster can attack player
