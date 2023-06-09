@@ -11,6 +11,10 @@ void halt_catch_fire(std::string message, std::source_location location) {
     throw std::runtime_error(message);
 }
 
+float distance(::sf::Vector2u a, ::sf::Vector2u b) {
+    return std::sqrt(std::pow(a.x - b.x, 2) + std::pow(a.y - b.y, 2));
+}
+
 namespace sf {
     std::string to_string(::sf::Event::EventType etype)  {
         switch (etype) {

@@ -20,7 +20,7 @@ add_executable(ONRL
     src/console.cpp
     src/map.cpp
     src/util.cpp
-    src/player.cpp
+    src/unit.cpp
 )
 
 target_link_libraries(ONRL PRIVATE sfml-graphics sfml-window sfml-system sfml-audio)

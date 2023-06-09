@@ -56,7 +56,7 @@ Console::Console(uint32_t width, uint32_t height, std::string font_path, uint32_
     for (uint32_t i = 0; i < width * height; i++) {
         sf::Color fg = sf::Color{211, 211, 211};
         sf::Color bg = sf::Color{ 34,  34,  34};
-        const char c = '.';
+        const char c = ' ';
         glyphs.push_back(
             {c, fg, bg}
         );
@@ -69,6 +69,8 @@ void Console::render() noexcept {
     // simple render of all glyphs
     // NOTE: glyph_*_edge_pad gutters are always black
     // FUTURE: This could be fixed by padding out the size of the edge glyphs to cover the 'gutter'.
+
+    // Also, this whole thing is **horrifically** inefficient, but I don't need great fps for a roguelike, lol
 
     sf::Text text;
     text.setFont(font);
@@ -89,8 +91,14 @@ void Console::render() noexcept {
         text.setPosition(glyph_x, glyph_y);
         window.draw(text);
     }
+}
 
+void Console::window_display() {
     window.display();
+}
+
+sf::RenderWindow& Console::get_window() noexcept {
+    return window;
 }
 
 void Console::set_glyph(uint32_t x, uint32_t y, Console::glyph_t glyph) {

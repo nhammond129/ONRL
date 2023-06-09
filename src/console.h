@@ -26,6 +26,8 @@ public:
     Console(uint32_t width, uint32_t height, std::string font_path, uint32_t font_size = 12);
 
     void render() noexcept;
+    void window_display();
+    sf::RenderWindow& get_window() noexcept;
     void set_glyph(uint32_t x, uint32_t y, glyph_t g);
     const glyph_t get_glyph(uint32_t x, uint32_t y) const;
     void set_region(uint32_t x, uint32_t y, uint32_t w, uint32_t h, std::vector<glyph_t> glyphs);
