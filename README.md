@@ -1,5 +1,10 @@
 # ONRL - _One Night RogueLike_
 
+## FAQ
+![image](https://github.com/nhammond129/ONRL/assets/2228057/5734f7df-b9e1-4923-b7f7-556288aaf9c2)
+
+![image](https://github.com/nhammond129/ONRL/assets/2228057/94819f0f-d9ae-4467-b199-ad15a70f81e8)
+
 ## Foreword
 
 In the interest of providing Sunday an example of my gamedev work, I'm going to vomit up a quick and dirty roguelike. I'm going to use C++ and SFML, because I'm familiar with them.
