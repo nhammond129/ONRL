@@ -78,7 +78,7 @@ I tinkered around with better ideas of things to do with the moss, but none of w
 ![Monsters](./pics/monsters.png)
 
 
-## TODO
+## Past, Current and Future Plans
 
     - [x] Make a window.
     - [x] Make a player, let it walk around.
